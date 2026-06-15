@@ -50,6 +50,39 @@ app.post('/productos', async (req, res) => {
     });
 });
 
+// Actualizar producto
+app.put('/productos/:id', async (req, res) => {
+    try {
+        const productoActualizado = await Producto.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
+
+        res.json({
+            mensaje: "Producto actualizado",
+            productoActualizado
+        });
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Eliminar producto
+app.delete('/productos/:id', async (req, res) => {
+    try {
+        await Producto.findByIdAndDelete(req.params.id);
+
+        res.json({
+            mensaje: "Producto eliminado"
+        });
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Iniciar servidor
 const PORT = process.env.PORT || 3000;
 
